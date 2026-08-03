@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<!--
+  ConversIA - single page marketing site.
+  WhatsApp number used across every CTA: 19787375032 (wa.me format, digits only).
+  To change it, find/replace "19787375032" in this file.
+-->
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ConversIA — Automação de WhatsApp com Inteligência Artificial</title>
+  <meta name="description" content="A ConversIA automatiza o atendimento no WhatsApp com IA: responda leads em segundos, qualifique contatos e agende reuniões 24 horas por dia.">
+  <meta name="theme-color" content="#25D366">
+
+  <meta property="og:title" content="ConversIA — Automação de WhatsApp com IA">
+  <meta property="og:description" content="Responda leads em segundos, qualifique contatos e agende reuniões automaticamente no WhatsApp.">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="pt_BR">
+  <!-- [SUBSTITUIR] URL do site e imagem de compartilhamento -->
+  <meta property="og:url" content="https://[SEU-DOMINIO].com.br">
+  <meta property="og:image" content="https://[SEU-DOMINIO].com.br/og-image.jpg">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <a class="skip-link" href="#conteudo">Pular para o conteúdo principal</a>
+
+  <!-- ============ HEADER ============ -->
+  <header class="site-header" id="topo">
+    <div class="container header-inner">
+      <a class="logo" href="#topo" aria-label="ConversIA, página inicial">
+        <span class="logo-mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
+          </svg>
+        </span>
+        <span class="logo-text">Convers<span class="logo-accent">IA</span></span>
+      </a>
+
+      <nav class="site-nav" id="menu-principal" aria-label="Navegação principal">
+        <ul class="nav-list">
+          <li><a href="#servicos">Serviços</a></li>
+          <li><a href="#como-funciona">Como funciona</a></li>
+          <li><a href="#resultados">Resultados</a></li>
+          <li><a href="#planos">Planos</a></li>
+          <li><a href="#faq">FAQ</a></li>
+        </ul>
+        <a class="btn btn-primary btn-sm nav-cta"
+           href="https://wa.me/19787375032?text=Ol%C3%A1!%20Quero%20saber%20mais%20sobre%20automa%C3%A7%C3%A3o"
+           target="_blank" rel="noopener">
+          <span class="btn-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.2-1.8-.9-2-1s-.5-.2-.7.1-.8 1-1 1.2-.4.2-.7 0a8.2 8.2 0 0 1-2.4-1.5 9 9 0 0 1-1.7-2.1c-.2-.3 0-.5.1-.6l.5-.6a2 2 0 0 0 .3-.5.6.6 0 0 0 0-.5c0-.2-.7-1.7-1-2.3s-.5-.5-.7-.5h-.6a1.1 1.1 0 0 0-.8.4A3.4 3.4 0 0 0 5.8 9c0 1.5 1.1 3 1.2 3.2a12 12 0 0 0 4.7 4.1 15.6 15.6 0 0 0 1.6.6 3.8 3.8 0 0 0 1.7.1 2.8 2.8 0 0 0 1.9-1.3 2.3 2.3 0 0 0 .2-1.3c-.1-.1-.3-.2-.6-.4z"/><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2z"/></svg>
+          </span>
+          Fale no WhatsApp
+        </a>
+      </nav>
+
+      <button class="nav-toggle" id="nav-toggle" type="button"
+              aria-expanded="false" aria-controls="menu-principal" aria-label="Abrir menu de navegação">
+        <span class="nav-toggle-bar" aria-hidden="true"></span>
+        <span class="nav-toggle-bar" aria-hidden="true"></span>
+        <span class="nav-toggle-bar" aria-hidden="true"></span>
+      </button>
+    </div>
+  </header>
+
+  <main id="conteudo">
+
+    <!-- ============ HERO ============ -->
+    <section class="hero" id="inicio">
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <p class="eyebrow">
+            <span class="pulse-dot" aria-hidden="true"></span>
+            Agência de automação com IA
+          </p>
+          <h1>Automatize seu WhatsApp com IA e <span class="highlight">pare de perder vendas</span></h1>
+          <p class="lede">
+            A ConversIA responde, qualifica e agenda com seus clientes no WhatsApp
+            24 horas por dia. Sua equipe recebe apenas os leads prontos para comprar.
+          </p>
+          <div class="hero-actions">
+            <a class="btn btn-primary btn-lg"
+               href="https://wa.me/19787375032?text=Ol%C3%A1!%20Quero%20saber%20mais%20sobre%20automa%C3%A7%C3%A3o"
+               target="_blank" rel="noopener">
+              <span class="btn-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.2-1.8-.9-2-1s-.5-.2-.7.1-.8 1-1 1.2-.4.2-.7 0a8.2 8.2 0 0 1-2.4-1.5 9 9 0 0 1-1.7-2.1c-.2-.3 0-.5.1-.6l.5-.6a2 2 0 0 0 .3-.5.6.6 0 0 0 0-.5c0-.2-.7-1.7-1-2.3s-.5-.5-.7-.5h-.6a1.1 1.1 0 0 0-.8.4A3.4 3.4 0 0 0 5.8 9c0 1.5 1.1 3 1.2 3.2a12 12 0 0 0 4.7 4.1 15.6 15.6 0 0 0 1.6.6 3.8 3.8 0 0 0 1.7.1 2.8 2.8 0 0 0 1.9-1.3 2.3 2.3 0 0 0 .2-1.3c-.1-.1-.3-.2-.6-.4z"/><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2z"/></svg>
+              </span>
+              Fale no WhatsApp
+            </a>
+            <a class="btn btn-secondary btn-lg" href="#contato">Agendar demonstração</a>
+          </div>
+          <ul class="hero-proof">
+            <li>Implantação em até [X] dias</li>
+            <li>Integra com seu CRM</li>
+            <li>Sem fidelidade</li>
+          </ul>
+        </div>
+
+        <!-- Decorative chat mockup: hidden from assistive tech, described by hero copy -->
+        <div class="hero-visual" aria-hidden="true">
+          <div class="chat-card">
+            <div class="chat-head">
+              <span class="chat-avatar">IA</span>
+              <span class="chat-meta">
+                <strong>ConversIA</strong>
+                <em>online agora</em>
+              </span>
+            </div>
+            <div class="chat-body">
+              <p class="bubble in">Oi! Vi o anúncio de vocês, ainda tem horário essa semana?</p>
+              <p class="bubble out">Olá, Marina! Tenho sim 👋 Quinta às 14h ou sexta às 10h. Qual prefere?</p>
+              <p class="bubble in">Quinta às 14h fica ótimo</p>
+              <p class="bubble out">Agendado! Já enviei a confirmação e adicionei você no CRM. Até quinta 🚀</p>
+            </div>
+          </div>
+          <div class="floating-stat floating-stat-a">
+            <strong>8s</strong>
+            <span>tempo médio de resposta</span>
+          </div>
+          <div class="floating-stat floating-stat-b">
+            <strong>24/7</strong>
+            <span>sem pausa, sem fila</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ LOGOS ============ -->
+    <section class="logos" aria-label="Empresas atendidas">
+      <div class="container">
+        <p class="logos-label">Empresas que já automatizam com a ConversIA</p>
+        <ul class="logos-list">
+          <li>[LOGO CLIENTE 1]</li>
+          <li>[LOGO CLIENTE 2]</li>
+          <li>[LOGO CLIENTE 3]</li>
+          <li>[LOGO CLIENTE 4]</li>
+          <li>[LOGO CLIENTE 5]</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ============ SERVIÇOS ============ -->
+    <section class="section" id="servicos">
+      <div class="container">
+        <div class="section-head">
+          <p class="eyebrow">Serviços</p>
+          <h2>Tudo que seu WhatsApp precisa para vender sozinho</h2>
+          <p class="section-sub">
+            Montamos a automação sob medida para o seu processo comercial —
+            do primeiro "oi" até o lead qualificado dentro do seu CRM.
+          </p>
+        </div>
+
+        <div class="cards-grid">
+          <article class="card">
+            <span class="card-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 11.5a8.4 8.4 0 0 1-8.5 8.5 8.4 8.4 0 0 1-3.8-.9L3 21l1.9-5.7A8.4 8.4 0 0 1 12.5 3 8.4 8.4 0 0 1 21 11.5z"/>
+                <path d="M9 11h.01M12.5 11h.01M16 11h.01"/>
+              </svg>
+            </span>
+            <h3>Automação de WhatsApp</h3>
+            <p>
+              Fluxos automáticos que respondem, enviam catálogos, recuperam carrinhos
+              e fazem follow-up sem ninguém digitar uma linha.
+            </p>
+            <ul class="card-list">
+              <li>Respostas instantâneas</li>
+              <li>Disparos e follow-up</li>
+              <li>API oficial do WhatsApp</li>
+            </ul>
+          </article>
+
+          <article class="card">
+            <span class="card-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="4" y="7" width="16" height="12" rx="3"/>
+                <path d="M12 3v4M9 13h.01M15 13h.01M9.5 16.5h5"/>
+                <path d="M2 12v3M22 12v3"/>
+              </svg>
+            </span>
+            <h3>Atendimento com IA 24/7</h3>
+            <p>
+              Um agente treinado no seu negócio que entende contexto, responde dúvidas
+              reais e transfere para um humano na hora certa.
+            </p>
+            <ul class="card-list">
+              <li>Treinado com seus materiais</li>
+              <li>Tom de voz da sua marca</li>
+              <li>Transferência para humano</li>
+            </ul>
+          </article>
+
+          <article class="card">
+            <span class="card-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 5h18l-7 8v6l-4 2v-8L3 5z"/>
+              </svg>
+            </span>
+            <h3>Qualificação de leads</h3>
+            <p>
+              A IA faz as perguntas certas, pontua cada contato e entrega para o time
+              comercial só quem tem perfil, orçamento e urgência.
+            </p>
+            <ul class="card-list">
+              <li>Perguntas de qualificação</li>
+              <li>Score automático</li>
+              <li>Envio direto ao CRM</li>
+            </ul>
+          </article>
+
+          <article class="card">
+            <span class="card-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="5" width="18" height="16" rx="3"/>
+                <path d="M8 3v4M16 3v4M3 10h18M9 15l2 2 4-4"/>
+              </svg>
+            </span>
+            <h3>Agendamento automático</h3>
+            <p>
+              Consulta a agenda em tempo real, confirma o horário, envia lembrete e
+              reduz o não comparecimento sem esforço da equipe.
+            </p>
+            <ul class="card-list">
+              <li>Google Agenda e Outlook</li>
+              <li>Lembretes automáticos</li>
+              <li>Reagendamento pelo chat</li>
+            </ul>
+          </article>
+        </div>
+
+        <p class="section-note">
+          Também integramos com <strong>[SEU CRM: RD Station, Pipedrive, HubSpot…]</strong>,
+          ERPs e planilhas.
+        </p>
+      </div>
+    </section>
+
+    <!-- ============ COMO FUNCIONA ============ -->
+    <section class="section section-alt" id="como-funciona">
+      <div class="container">
+        <div class="section-head">
+          <p class="eyebrow">Como funciona</p>
+          <h2>Do diagnóstico ao piloto no ar em três passos</h2>
+        </div>
+
+        <ol class="steps">
+          <li class="step">
+            <span class="step-num" aria-hidden="true">01</span>
+            <h3>Diagnóstico gratuito</h3>
+            <p>
+              Uma conversa de [30] minutos para entender seu funil, o volume de mensagens
+              e onde os leads estão escapando hoje.
+            </p>
+          </li>
+          <li class="step">
+            <span class="step-num" aria-hidden="true">02</span>
+            <h3>Construção da automação</h3>
+            <p>
+              Desenhamos os fluxos, treinamos a IA com o seu conteúdo e conectamos
+              WhatsApp, CRM e agenda. Você aprova antes de publicar.
+            </p>
+          </li>
+          <li class="step">
+            <span class="step-num" aria-hidden="true">03</span>
+            <h3>Ativação e otimização</h3>
+            <p>
+              Colocamos no ar, acompanhamos as conversas reais e ajustamos toda semana
+              para melhorar conversão e reduzir custo por lead.
+            </p>
+          </li>
+        </ol>
+
+        <div class="steps-cta">
+          <a class="btn btn-primary"
+             href="https://wa.me/19787375032?text=Ol%C3%A1!%20Quero%20agendar%20um%20diagn%C3%B3stico%20gratuito"
+             target="_blank" rel="noopener">Quero meu diagnóstico gratuito</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ RESULTADOS ============ -->
+    <section class="section" id="resultados">
+      <div class="container">
+        <div class="section-head">
+          <p class="eyebrow">Resultados</p>
+          <h2>O que muda na primeira semana</h2>
+          <p class="section-sub">
+            Números de referência dos nossos projetos. Ajuste com os seus dados reais
+            assim que tiver o primeiro mês rodando.
+          </p>
+        </div>
+
+        <div class="stats-grid">
+          <div class="stat">
+            <strong class="stat-value">[8]s</strong>
+            <p class="stat-label">Responda leads em segundos</p>
+            <p class="stat-desc">Nenhum contato espera na fila — a resposta sai antes do lead procurar o concorrente.</p>
+          </div>
+          <div class="stat">
+            <strong class="stat-value">24h</strong>
+            <p class="stat-label">Atendimento sem parar</p>
+            <p class="stat-desc">Madrugada, fim de semana e feriado. A IA atende no mesmo padrão de sempre.</p>
+          </div>
+          <div class="stat">
+            <strong class="stat-value">-[40]%</strong>
+            <p class="stat-label">Reduza custos operacionais</p>
+            <p class="stat-desc">Menos tempo em perguntas repetidas e mais tempo do time onde há dinheiro na mesa.</p>
+          </div>
+          <div class="stat">
+            <strong class="stat-value">+[3]x</strong>
+            <p class="stat-label">Mais reuniões agendadas</p>
+            <p class="stat-desc">Qualificação e agendamento automáticos aumentam a taxa de conversão do funil.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ DEPOIMENTOS ============ -->
+    <section class="section section-alt" id="depoimentos">
+      <div class="container">
+        <div class="section-head">
+          <p class="eyebrow">Depoimentos</p>
+          <h2>Quem já automatizou não volta atrás</h2>
+        </div>
+
+        <div class="cards-grid cards-grid-3">
+          <figure class="testimonial">
+            <span class="quote-mark" aria-hidden="true">"</span>
+            <blockquote>
+              <p>[DEPOIMENTO 1 — resultado concreto que o cliente teve, em 2 ou 3 frases. Ex.: tempo de resposta, número de reuniões, economia de equipe.]</p>
+            </blockquote>
+            <figcaption>
+              <span class="avatar" aria-hidden="true">[F]</span>
+              <span>
+                <strong>[NOME DO CLIENTE]</strong>
+                <em>[Cargo] — [Empresa]</em>
+              </span>
+            </figcaption>
+          </figure>
+
+          <figure class="testimonial">
+            <span class="quote-mark" aria-hidden="true">"</span>
+            <blockquote>
+              <p>[DEPOIMENTO 2 — fale do processo de implantação e do suporte, em 2 ou 3 frases.]</p>
+            </blockquote>
+            <figcaption>
+              <span class="avatar" aria-hidden="true">[F]</span>
+              <span>
+                <strong>[NOME DO CLIENTE]</strong>
+                <em>[Cargo] — [Empresa]</em>
+              </span>
+            </figcaption>
+          </figure>
+
+          <figure class="testimonial">
+            <span class="quote-mark" aria-hidden="true">"</span>
+            <blockquote>
+              <p>[DEPOIMENTO 3 — foque no impacto em vendas ou no atendimento fora do horário comercial.]</p>
+            </blockquote>
+            <figcaption>
+              <span class="avatar" aria-hidden="true">[F]</span>
+              <span>
+                <strong>[NOME DO CLIENTE]</strong>
+                <em>[Cargo] — [Empresa]</em>
+              </span>
+            </figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ PLANOS ============ -->
+    <section class="section" id="planos">
+      <div class="container">
+        <div class="section-head">
+          <p class="eyebrow">Planos</p>
+          <h2>Escolha o ponto de partida</h2>
+          <p class="section-sub">
+            Cada operação tem um volume e uma complexidade. Falamos com você antes de
+            fechar escopo — sem pacote engessado.
+          </p>
+        </div>
+
+        <div class="plans-grid">
+          <article class="plan">
+            <h3>Essencial</h3>
+            <p class="plan-desc">Para quem está começando a automatizar e quer parar de perder mensagem.</p>
+            <ul class="plan-list">
+              <li>1 número de WhatsApp</li>
+              <li>Fluxos de atendimento básicos</li>
+              <li>Respostas automáticas e horário comercial</li>
+              <li>Relatório mensal</li>
+              <li>Suporte por WhatsApp</li>
+            </ul>
+            <a class="btn btn-outline btn-block"
+               href="https://wa.me/19787375032?text=Ol%C3%A1!%20Tenho%20interesse%20no%20plano%20Essencial"
+               target="_blank" rel="noopener">Falar com especialista</a>
+          </article>
+
+          <article class="plan plan-featured">
+            <span class="plan-badge">Mais escolhido</span>
+            <h3>Profissional</h3>
+            <p class="plan-desc">Para times comerciais que precisam de leads qualificados todo dia.</p>
+            <ul class="plan-list">
+              <li>Tudo do Essencial</li>
+              <li>Agente de IA treinado no seu negócio</li>
+              <li>Qualificação e score de leads</li>
+              <li>Agendamento automático na agenda</li>
+              <li>Integração com CRM</li>
+              <li>Otimização quinzenal</li>
+            </ul>
+            <a class="btn btn-primary btn-block"
+               href="https://wa.me/19787375032?text=Ol%C3%A1!%20Tenho%20interesse%20no%20plano%20Profissional"
+               target="_blank" rel="noopener">Falar com especialista</a>
+          </article>
+
+          <article class="plan">
+            <h3>Sob Medida</h3>
+            <p class="plan-desc">Para operações com alto volume, múltiplas unidades ou regras próprias.</p>
+            <ul class="plan-list">
+              <li>Tudo do Profissional</li>
+              <li>Múltiplos números e equipes</li>
+              <li>Integrações com ERP e sistemas internos</li>
+              <li>Fluxos e automações personalizadas</li>
+              <li>Gerente de conta dedicado</li>
+              <li>SLA acordado em contrato</li>
+            </ul>
+            <a class="btn btn-outline btn-block"
+               href="https://wa.me/19787375032?text=Ol%C3%A1!%20Tenho%20interesse%20no%20plano%20Sob%20Medida"
+               target="_blank" rel="noopener">Falar com especialista</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ FAQ ============ -->
+    <section class="section section-alt" id="faq">
+      <div class="container container-narrow">
+        <div class="section-head">
+          <p class="eyebrow">Dúvidas frequentes</p>
+          <h2>Perguntas que sempre recebemos</h2>
+        </div>
+
+        <div class="faq">
+          <div class="faq-item">
+            <h3>
+              <button type="button" class="faq-question" aria-expanded="false" aria-controls="faq-panel-1" id="faq-btn-1">
+                <span>Quanto tempo leva para colocar a automação no ar?</span>
+                <span class="faq-icon" aria-hidden="true"></span>
+              </button>
+            </h3>
+            <div class="faq-answer" id="faq-panel-1" role="region" aria-labelledby="faq-btn-1" hidden>
+              <p>
+                Projetos padrão entram no ar em cerca de [X] dias úteis, contando o
+                diagnóstico, a construção dos fluxos e o treinamento da IA. Operações com
+                integrações mais complexas levam um pouco mais, e o prazo é combinado antes de começar.
+              </p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <h3>
+              <button type="button" class="faq-question" aria-expanded="false" aria-controls="faq-panel-2" id="faq-btn-2">
+                <span>Preciso trocar meu número de WhatsApp?</span>
+                <span class="faq-icon" aria-hidden="true"></span>
+              </button>
+            </h3>
+            <div class="faq-answer" id="faq-panel-2" role="region" aria-labelledby="faq-btn-2" hidden>
+              <p>
+                Não. Na maioria dos casos migramos o seu número atual para a API oficial do
+                WhatsApp, mantendo o histórico da sua operação e o contato que seus clientes já conhecem.
+              </p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <h3>
+              <button type="button" class="faq-question" aria-expanded="false" aria-controls="faq-panel-3" id="faq-btn-3">
+                <span>A IA vai substituir minha equipe de atendimento?</span>
+                <span class="faq-icon" aria-hidden="true"></span>
+              </button>
+            </h3>
+            <div class="faq-answer" id="faq-panel-3" role="region" aria-labelledby="faq-btn-3" hidden>
+              <p>
+                Não é esse o objetivo. A IA cuida do repetitivo — primeira resposta, dúvidas
+                comuns, qualificação e agendamento — e transfere para uma pessoa quando a conversa
+                exige julgamento humano. Seu time passa a falar com menos gente e fechar mais.
+              </p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <h3>
+              <button type="button" class="faq-question" aria-expanded="false" aria-controls="faq-panel-4" id="faq-btn-4">
+                <span>Funciona para o meu segmento?</span>
+                <span class="faq-icon" aria-hidden="true"></span>
+              </button>
+            </h3>
+            <div class="faq-answer" id="faq-panel-4" role="region" aria-labelledby="faq-btn-4" hidden>
+              <p>
+                Atendemos principalmente [SEGMENTOS: clínicas, imobiliárias, e-commerce, educação,
+                serviços B2B…]. Se o seu negócio recebe pedidos ou dúvidas pelo WhatsApp, existe
+                automação a ser feita — o diagnóstico gratuito confirma isso em poucos minutos.
+              </p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <h3>
+              <button type="button" class="faq-question" aria-expanded="false" aria-controls="faq-panel-5" id="faq-btn-5">
+                <span>Como fica a LGPD e a segurança dos dados?</span>
+                <span class="faq-icon" aria-hidden="true"></span>
+              </button>
+            </h3>
+            <div class="faq-answer" id="faq-panel-5" role="region" aria-labelledby="faq-btn-5" hidden>
+              <p>
+                Trabalhamos sobre a API oficial do WhatsApp e seguimos a LGPD: dados tratados apenas
+                para a finalidade contratada, acesso restrito e contrato com cláusulas de
+                confidencialidade. [DESCREVA AQUI SUAS MEDIDAS ESPECÍFICAS DE SEGURANÇA.]
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ CTA FINAL + FORMULÁRIO ============ -->
+    <section class="cta-final" id="contato">
+      <div class="container cta-grid">
+        <div class="cta-copy">
+          <h2>Vamos colocar sua primeira automação no ar</h2>
+          <p>
+            Conte rapidamente sobre a sua operação. Respondemos em até [X] horas úteis com
+            um diagnóstico e uma proposta de fluxo — sem compromisso.
+          </p>
+          <a class="btn btn-primary btn-lg"
+             href="https://wa.me/19787375032?text=Ol%C3%A1!%20Quero%20agendar%20uma%20demonstra%C3%A7%C3%A3o%20da%20ConversIA"
+             target="_blank" rel="noopener">
+            <span class="btn-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.2-1.8-.9-2-1s-.5-.2-.7.1-.8 1-1 1.2-.4.2-.7 0a8.2 8.2 0 0 1-2.4-1.5 9 9 0 0 1-1.7-2.1c-.2-.3 0-.5.1-.6l.5-.6a2 2 0 0 0 .3-.5.6.6 0 0 0 0-.5c0-.2-.7-1.7-1-2.3s-.5-.5-.7-.5h-.6a1.1 1.1 0 0 0-.8.4A3.4 3.4 0 0 0 5.8 9c0 1.5 1.1 3 1.2 3.2a12 12 0 0 0 4.7 4.1 15.6 15.6 0 0 0 1.6.6 3.8 3.8 0 0 0 1.7.1 2.8 2.8 0 0 0 1.9-1.3 2.3 2.3 0 0 0 .2-1.3c-.1-.1-.3-.2-.6-.4z"/><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2z"/></svg>
+            </span>
+            Prefiro falar agora no WhatsApp
+          </a>
+          <ul class="cta-list">
+            <li>Diagnóstico gratuito e sem compromisso</li>
+            <li>Proposta com escopo e prazo definidos</li>
+            <li>Você fala direto com quem implementa</li>
+          </ul>
+        </div>
+
+        <div class="form-wrap">
+          <form class="contact-form" id="contact-form" novalidate>
+            <h3 class="form-title">Agende sua demonstração</h3>
+
+            <div class="field">
+              <label for="nome">Nome completo</label>
+              <input type="text" id="nome" name="nome" autocomplete="name"
+                     aria-describedby="erro-nome" placeholder="Como podemos te chamar?">
+              <p class="error-msg" id="erro-nome" role="alert"></p>
+            </div>
+
+            <div class="field">
+              <label for="email">E-mail</label>
+              <input type="email" id="email" name="email" autocomplete="email"
+                     aria-describedby="erro-email" placeholder="voce@empresa.com.br">
+              <p class="error-msg" id="erro-email" role="alert"></p>
+            </div>
+
+            <div class="field">
+              <label for="whatsapp">WhatsApp</label>
+              <input type="tel" id="whatsapp" name="whatsapp" autocomplete="tel" inputmode="numeric"
+                     aria-describedby="erro-whatsapp dica-whatsapp" placeholder="(11) 90000-0000">
+              <p class="hint" id="dica-whatsapp">Com DDD. É por aqui que vamos te responder.</p>
+              <p class="error-msg" id="erro-whatsapp" role="alert"></p>
+            </div>
+
+            <div class="field">
+              <label for="mensagem">Como podemos ajudar?</label>
+              <textarea id="mensagem" name="mensagem" rows="4"
+                        aria-describedby="erro-mensagem"
+                        placeholder="Conte um pouco sobre sua operação e o volume de mensagens."></textarea>
+              <p class="error-msg" id="erro-mensagem" role="alert"></p>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-block btn-lg">Quero minha demonstração</button>
+
+            <p class="form-legal">
+              Ao enviar, você concorda em ser contatado pela ConversIA. Seus dados não são
+              compartilhados com terceiros.
+            </p>
+
+            <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
+          </form>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div class="footer-brand">
+        <a class="logo" href="#topo" aria-label="ConversIA, voltar ao topo">
+          <span class="logo-mark" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
+            </svg>
+          </span>
+          <span class="logo-text">Convers<span class="logo-accent">IA</span></span>
+        </a>
+        <p class="footer-tagline">
+          Agência de automação com inteligência artificial para empresas que vendem pelo WhatsApp.
+        </p>
+      </div>
+
+      <nav class="footer-col" aria-label="Links do site">
+        <h2 class="footer-title">Navegação</h2>
+        <ul>
+          <li><a href="#servicos">Serviços</a></li>
+          <li><a href="#como-funciona">Como funciona</a></li>
+          <li><a href="#resultados">Resultados</a></li>
+          <li><a href="#planos">Planos</a></li>
+          <li><a href="#faq">FAQ</a></li>
+        </ul>
+      </nav>
+
+      <div class="footer-col">
+        <h2 class="footer-title">Contato</h2>
+        <ul>
+          <li><a href="https://wa.me/19787375032?text=Ol%C3%A1!%20Quero%20saber%20mais%20sobre%20automa%C3%A7%C3%A3o" target="_blank" rel="noopener">WhatsApp: +1 978-737-5032</a></li>
+          <li><a href="mailto:contato@[SEU-DOMINIO].com.br">contato@[SEU-DOMINIO].com.br</a></li>
+          <li>[ENDEREÇO / CIDADE — UF]</li>
+          <li>Atendimento: [seg. a sex., 9h às 18h]</li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h2 class="footer-title">Social</h2>
+        <ul class="footer-social">
+          <li>
+            <a href="[URL INSTAGRAM]" target="_blank" rel="noopener">
+              <span class="social-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="3.8"/><path d="M17.5 6.5h.01"/>
+                </svg>
+              </span>
+              Instagram
+            </a>
+          </li>
+          <li>
+            <a href="[URL LINKEDIN]" target="_blank" rel="noopener">
+              <span class="social-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="3" y="3" width="18" height="18" rx="4"/><path d="M8 10.5V17M8 7.5h.01M12 17v-3.6a2.4 2.4 0 0 1 4.8 0V17"/>
+                </svg>
+              </span>
+              LinkedIn
+            </a>
+          </li>
+          <li>
+            <a href="[URL YOUTUBE]" target="_blank" rel="noopener">
+              <span class="social-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="2.5" y="5.5" width="19" height="13" rx="4"/><path d="M10.5 9.5l5 2.5-5 2.5z"/>
+                </svg>
+              </span>
+              YouTube
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="container footer-bottom">
+      <p>© <span id="ano-atual">2026</span> ConversIA. Todos os direitos reservados.</p>
+      <p>CNPJ [00.000.000/0001-00] · <a href="[URL POLÍTICA DE PRIVACIDADE]">Política de Privacidade</a> · <a href="[URL TERMOS DE USO]">Termos de Uso</a></p>
+    </div>
+  </footer>
+
+  <!-- ============ BOTÃO FLUTUANTE ============ -->
+  <a class="wa-float"
+     href="https://wa.me/19787375032?text=Ol%C3%A1!%20Quero%20saber%20mais%20sobre%20automa%C3%A7%C3%A3o"
+     target="_blank" rel="noopener" aria-label="Conversar com a ConversIA no WhatsApp">
+    <span aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.2-1.8-.9-2-1s-.5-.2-.7.1-.8 1-1 1.2-.4.2-.7 0a8.2 8.2 0 0 1-2.4-1.5 9 9 0 0 1-1.7-2.1c-.2-.3 0-.5.1-.6l.5-.6a2 2 0 0 0 .3-.5.6.6 0 0 0 0-.5c0-.2-.7-1.7-1-2.3s-.5-.5-.7-.5h-.6a1.1 1.1 0 0 0-.8.4A3.4 3.4 0 0 0 5.8 9c0 1.5 1.1 3 1.2 3.2a12 12 0 0 0 4.7 4.1 15.6 15.6 0 0 0 1.6.6 3.8 3.8 0 0 0 1.7.1 2.8 2.8 0 0 0 1.9-1.3 2.3 2.3 0 0 0 .2-1.3c-.1-.1-.3-.2-.6-.4z"/><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2z"/></svg>
+    </span>
+    <span class="wa-float-label">Fale conosco</span>
+  </a>
+
+  <script src="script.js" defer></script>
+</body>
+</html>
