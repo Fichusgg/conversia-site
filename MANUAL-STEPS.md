@@ -244,13 +244,20 @@ Free tier gives 1,000 operations/month — enough to pilot, not enough for volum
 
 3. Branch on `message.type`:
    - `text` → straight to Relevance AI
-   - `image` → download media using the channel API key, then Groq vision
-   - `audio` / `voice` → download media, then Groq Whisper for transcription
+   - `image` → `POST /api/media`, then Groq vision on the returned bytes
+   - `audio` / `voice` → `POST /api/media`, then Groq Whisper for transcription
 
-   > Media download needs that channel's 360dialog API key, which by design never
-   > leaves the server. Either add a small `/api/media` endpoint following the
-   > same shared-secret pattern as `/api/send`, or have Make call `/api/send`-style
-   > auth against a new route. Do not put the API key into Make.
+   `/api/media` exists so the channel's 360dialog API key never has to be
+   configured inside Make. Call it with the same secret as `/api/send`:
+
+   ```
+   POST https://conversia-site.vercel.app/api/media
+   Header: x-bridge-secret: <BRIDGE_SEND_SECRET>
+   Body:   { "client_id": "{{client_id}}", "media_id": "{{message.media_id}}" }
+   →       { "ok": true, "mime_type": "audio/ogg", "size": 12345, "base64": "…" }
+   ```
+
+   Files above 4 MB are rejected with `413`. Never put the API key into Make.
 
 4. End the scenario with an **HTTP → Make a request** module:
 

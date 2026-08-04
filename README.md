@@ -38,6 +38,7 @@ api/
   partner-events.js     POST /api/partner-events — 360dialog partner webhook
   inbound.js            POST /api/inbound     — inbound messages → Make
   send.js               POST /api/send        — Make → WhatsApp reply
+  media.js              POST /api/media       — download a photo/voice note for Make
   leads.js              POST /api/leads       — site form → Supabase
 ```
 
@@ -169,6 +170,16 @@ either a shorthand or a full Cloud API message:
 ```json
 { "client_id": "abc", "to": "5511999999999", "text": "Olá!" }
 { "client_id": "abc", "message": { "messaging_product": "whatsapp", "…": "…" } }
+```
+
+### `POST /api/media`
+Called by Make. Same shared secret as `/api/send`. Turns the `media_id` from an
+inbound photo or voice note into bytes, so Groq vision / Whisper can read it —
+without the channel API key ever being configured inside Make.
+
+```json
+{ "client_id": "abc", "media_id": "wamid…" }
+→ { "ok": true, "mime_type": "audio/ogg", "size": 12345, "base64": "…" }
 ```
 
 ## Before this handles real traffic
