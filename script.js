@@ -5,16 +5,78 @@
 (function () {
   'use strict';
 
+  /* ==================================================================
+     CONFIGURE ME
+     ------------------------------------------------------------------
+     The agency's WhatsApp number in international format, digits only:
+     country code + area code + number, no "+", spaces or dashes.
+
+       Brazil, (11) 98765-4321  ->  '5511987654321'
+
+     While this is left as the placeholder below, every "Falar no
+     WhatsApp" button falls back to scrolling to the contact form, so
+     nobody ever lands on a broken wa.me link.
+
+     There is no build step on this site, so this value lives here in
+     source rather than in an environment variable.
+     ================================================================== */
+  var WHATSAPP_NUMBER = 'SEU_NUMERO_AQUI';
+
   var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var isConfiguredNumber = /^\d{10,15}$/.test(WHATSAPP_NUMBER);
 
   /* ------------------------------------------------------------------
      Footer year
      ------------------------------------------------------------------ */
-  var yearEl = document.getElementById('ano-atual');
-  if (yearEl) yearEl.textContent = String(new Date().getFullYear());
+  Array.prototype.forEach.call(document.querySelectorAll('#ano-atual'), function (el) {
+    el.textContent = String(new Date().getFullYear());
+  });
 
   /* ------------------------------------------------------------------
-     Sticky header: shadow once the page is scrolled
+     WhatsApp links
+     Every CTA is marked `data-wa` with a `data-wa-message`. When the
+     number above is filled in, they become real wa.me links; otherwise
+     they keep the in-page fallback href they were authored with.
+     ------------------------------------------------------------------ */
+  var waLinks = document.querySelectorAll('[data-wa]');
+
+  if (isConfiguredNumber) {
+    Array.prototype.forEach.call(waLinks, function (link) {
+      var message = link.getAttribute('data-wa-message') || '';
+      var url = 'https://wa.me/' + WHATSAPP_NUMBER;
+      if (message) url += '?text=' + encodeURIComponent(message);
+
+      link.setAttribute('href', url);
+      link.setAttribute('target', '_blank');
+      link.setAttribute('rel', 'noopener');
+    });
+  } else if (waLinks.length) {
+    console.warn(
+      '[ConversIA] WHATSAPP_NUMBER is not set in script.js — ' +
+      waLinks.length + ' WhatsApp button(s) are falling back to the contact form. ' +
+      'Set it to the number in international format, e.g. 5511987654321.'
+    );
+  }
+
+  /* ------------------------------------------------------------------
+     Placeholder links (the 360dialog onboarding URL on /comecar)
+     Disabled until a real URL is pasted in, with a visible explanation.
+     ------------------------------------------------------------------ */
+  Array.prototype.forEach.call(document.querySelectorAll('[data-placeholder-link]'), function (link) {
+    var href = link.getAttribute('href') || '';
+    if (/^https?:\/\//i.test(href)) return;
+
+    link.setAttribute('aria-disabled', 'true');
+    link.removeAttribute('href');
+
+    var fallback = document.getElementById('onboarding-fallback');
+    if (fallback) fallback.hidden = false;
+
+    console.warn('[ConversIA] Onboarding link is still a placeholder in comecar.html.');
+  });
+
+  /* ------------------------------------------------------------------
+     Sticky header
      ------------------------------------------------------------------ */
   var header = document.querySelector('.site-header');
 
@@ -44,7 +106,6 @@
       setNavOpen(navToggle.getAttribute('aria-expanded') !== 'true');
     });
 
-    // Close after picking a destination, so the target section is visible.
     nav.addEventListener('click', function (event) {
       if (event.target.closest('a')) setNavOpen(false);
     });
@@ -56,22 +117,15 @@
       }
     });
 
-    // Reset state when leaving the mobile breakpoint.
     var desktopQuery = window.matchMedia('(min-width: 900px)');
-    var onBreakpointChange = function (event) {
-      if (event.matches) setNavOpen(false);
-    };
-    if (desktopQuery.addEventListener) {
-      desktopQuery.addEventListener('change', onBreakpointChange);
-    } else if (desktopQuery.addListener) {
-      desktopQuery.addListener(onBreakpointChange);
-    }
+    var onBreakpointChange = function (event) { if (event.matches) setNavOpen(false); };
+    if (desktopQuery.addEventListener) desktopQuery.addEventListener('change', onBreakpointChange);
+    else if (desktopQuery.addListener) desktopQuery.addListener(onBreakpointChange);
   }
 
   /* ------------------------------------------------------------------
-     Smooth scroll
-     CSS `scroll-behavior: smooth` handles it, but we also move focus to
-     the target so keyboard and screen reader users follow along.
+     Smooth scroll, with focus moved to the target so keyboard and
+     screen reader users follow along.
      ------------------------------------------------------------------ */
   document.addEventListener('click', function (event) {
     var link = event.target.closest('a[href^="#"]');
@@ -117,99 +171,18 @@
   }
 
   /* ------------------------------------------------------------------
-     FAQ accordion
-     Panels keep the `hidden` attribute while collapsed so they stay out
-     of the accessibility tree; CSS re-enables `display` so the height
-     transition can still run.
+     Demo request form -> POST /api/leads -> Supabase
      ------------------------------------------------------------------ */
-  var faqButtons = Array.prototype.slice.call(document.querySelectorAll('.faq-question'));
-
-  function collapse(button) {
-    var panel = document.getElementById(button.getAttribute('aria-controls'));
-    if (!panel || button.getAttribute('aria-expanded') !== 'true') return;
-
-    button.setAttribute('aria-expanded', 'false');
-    panel.style.height = panel.scrollHeight + 'px';
-
-    requestAnimationFrame(function () {
-      panel.style.height = '0px';
-    });
-
-    afterTransition(panel, function () {
-      if (button.getAttribute('aria-expanded') === 'false') panel.hidden = true;
-    });
-  }
-
-  function expand(button) {
-    var panel = document.getElementById(button.getAttribute('aria-controls'));
-    if (!panel) return;
-
-    button.setAttribute('aria-expanded', 'true');
-    panel.hidden = false;
-    panel.style.height = '0px';
-
-    requestAnimationFrame(function () {
-      panel.style.height = panel.scrollHeight + 'px';
-    });
-
-    afterTransition(panel, function () {
-      // Release the fixed height so the panel can reflow (e.g. on resize).
-      if (button.getAttribute('aria-expanded') === 'true') panel.style.height = 'auto';
-    });
-  }
-
-  // Runs `done` on transitionend, with a timer fallback in case the
-  // transition is suppressed (reduced motion, background tab).
-  function afterTransition(el, done) {
-    var finished = false;
-
-    function finish() {
-      if (finished) return;
-      finished = true;
-      el.removeEventListener('transitionend', onEnd);
-      done();
-    }
-
-    function onEnd(event) {
-      if (event.target === el && event.propertyName === 'height') finish();
-    }
-
-    el.addEventListener('transitionend', onEnd);
-    window.setTimeout(finish, 400);
-  }
-
-  faqButtons.forEach(function (button) {
-    button.addEventListener('click', function () {
-      var isOpen = button.getAttribute('aria-expanded') === 'true';
-
-      // One panel at a time.
-      faqButtons.forEach(function (other) {
-        if (other !== button) collapse(other);
-      });
-
-      if (isOpen) collapse(button);
-      else expand(button);
-    });
-  });
-
-  /* ------------------------------------------------------------------
-     Contact form validation
-     No backend yet: valid submissions are logged and confirmed on screen.
-     ------------------------------------------------------------------ */
-  var form = document.getElementById('contact-form');
+  var form = document.getElementById('form-demo');
 
   if (form) {
     var status = document.getElementById('form-status');
+    var submitBtn = document.getElementById('form-submit');
 
     var rules = {
       nome: function (value) {
         if (!value) return 'Informe seu nome.';
         if (value.length < 2) return 'O nome parece curto demais.';
-        return '';
-      },
-      email: function (value) {
-        if (!value) return 'Informe seu e-mail.';
-        if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(value)) return 'Digite um e-mail válido, como voce@empresa.com.br.';
         return '';
       },
       whatsapp: function (value) {
@@ -218,9 +191,18 @@
         if (digits.length < 10 || digits.length > 13) return 'Informe o número com DDD, por exemplo (11) 90000-0000.';
         return '';
       },
-      mensagem: function (value) {
-        if (!value) return 'Escreva uma mensagem.';
-        if (value.length < 10) return 'Conte um pouco mais — pelo menos 10 caracteres.';
+      email: function (value) {
+        // Optional, but must look like an address when filled in.
+        if (!value) return '';
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(value)) return 'Digite um e-mail válido ou deixe em branco.';
+        return '';
+      },
+      segmento: function (value) {
+        if (!value) return 'Escolha o tipo de negócio.';
+        return '';
+      },
+      consentimento: function (_value, field) {
+        if (!field.checked) return 'Precisamos da sua autorização para entrar em contato.';
         return '';
       }
     };
@@ -237,7 +219,7 @@
       var rule = rules[field.name];
       if (!rule) return true;
 
-      var message = rule(field.value.trim());
+      var message = rule(String(field.value || '').trim(), field);
       showFieldError(field, message);
       return !message;
     }
@@ -252,14 +234,14 @@
       var field = form.elements[name];
       if (!field) return;
 
-      // Validate on blur, then keep the message live once it has been shown.
-      field.addEventListener('blur', function () { validateField(field); });
+      var eventName = field.type === 'checkbox' ? 'change' : 'blur';
+      field.addEventListener(eventName, function () { validateField(field); });
       field.addEventListener('input', function () {
         if (field.hasAttribute('aria-invalid')) validateField(field);
       });
     });
 
-    // Light formatting for Brazilian mobile numbers: (11) 90000-0000
+    // Light formatting for Brazilian numbers: (11) 98765-4321
     var whatsappField = form.elements.whatsapp;
     if (whatsappField) {
       whatsappField.addEventListener('input', function () {
@@ -297,22 +279,54 @@
 
       var payload = {
         nome: form.elements.nome.value.trim(),
-        email: form.elements.email.value.trim(),
         whatsapp: form.elements.whatsapp.value.trim(),
+        email: form.elements.email.value.trim(),
+        segmento: form.elements.segmento.value,
         mensagem: form.elements.mensagem.value.trim(),
-        enviadoEm: new Date().toISOString()
+        consentimento: form.elements.consentimento.checked,
+        site: form.elements.site ? form.elements.site.value : '' // honeypot
       };
 
-      // TODO: replace with a real endpoint (Formspree, n8n webhook, own API).
-      console.log('[ConversIA] Lead do formulário:', payload);
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Enviando…';
+      setStatus('');
 
-      form.reset();
-      Object.keys(rules).forEach(function (name) {
-        var field = form.elements[name];
-        if (field) showFieldError(field, '');
-      });
+      fetch('/api/leads', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      })
+        .then(function (response) {
+          return response.json().catch(function () { return {}; })
+            .then(function (data) { return { ok: response.ok, data: data }; });
+        })
+        .then(function (result) {
+          if (!result.ok) throw new Error(result.data.error || 'request_failed');
 
-      setStatus('Recebemos seus dados, ' + payload.nome.split(' ')[0] + '! Retornamos no seu WhatsApp em breve.', 'success');
+          form.reset();
+          Object.keys(rules).forEach(function (name) {
+            var field = form.elements[name];
+            if (field) showFieldError(field, '');
+          });
+
+          setStatus(
+            'Recebemos seus dados, ' + payload.nome.split(' ')[0] +
+            '! Entramos em contato pelo seu WhatsApp em breve.',
+            'success'
+          );
+        })
+        .catch(function (error) {
+          console.error('[ConversIA] Falha ao enviar o formulário:', error);
+          setStatus(
+            'Não conseguimos enviar agora. Tente de novo em instantes ou fale com a gente ' +
+            'direto pelo WhatsApp.',
+            'error'
+          );
+        })
+        .then(function () {
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Solicitar demonstração';
+        });
     });
   }
 
@@ -320,7 +334,7 @@
      Scroll reveal
      ------------------------------------------------------------------ */
   var revealTargets = document.querySelectorAll(
-    '.card, .step, .stat, .testimonial, .plan, .section-head, .chat-card'
+    '.card, .step, .segment, .section-head, .chat-card, .callout, .start-box'
   );
 
   if ('IntersectionObserver' in window && !prefersReducedMotion) {

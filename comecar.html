@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Começar — ConversIA</title>
+  <meta name="description" content="Conecte o WhatsApp do seu negócio à ConversIA. Processo oficial da Meta, com consentimento e conformidade com a LGPD.">
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#25d366" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0b0f0d" media="(prefers-color-scheme: dark)">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <a class="skip-link" href="#conteudo">Pular para o conteúdo principal</a>
+
+  <header class="site-header" id="topo">
+    <div class="container header-inner">
+      <a class="logo" href="/" aria-label="ConversIA, página inicial">
+        <span class="logo-mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
+          </svg>
+        </span>
+        <span class="logo-text">Convers<span class="logo-accent">IA</span></span>
+      </a>
+      <a class="btn btn-secondary btn-sm" href="/">Voltar ao site</a>
+    </div>
+  </header>
+
+  <main id="conteudo" class="page">
+    <div class="container container-narrow">
+
+      <div class="page-head">
+        <p class="eyebrow">Começar</p>
+        <h1>Conectar o WhatsApp do seu negócio</h1>
+        <p class="lede">
+          Esta é a etapa em que o seu número passa a funcionar na Plataforma oficial do
+          WhatsApp Business. O processo é feito pela própria Meta, em uma janela segura, e
+          leva poucos minutos.
+        </p>
+      </div>
+
+      <div class="notice">
+        <strong>Antes de começar, tenha em mãos:</strong>
+        <ul>
+          <li>Acesso ao Facebook / Meta Business com permissão de administrador.</li>
+          <li>O número de telefone que será usado no atendimento, com acesso para receber
+              o código de verificação por SMS ou ligação.</li>
+          <li>Os dados do seu negócio (nome, endereço e site ou rede social).</li>
+        </ul>
+      </div>
+
+      <ol class="steps steps-stacked">
+        <li class="step">
+          <span class="step-num" aria-hidden="true">01</span>
+          <h2>Você abre o formulário oficial</h2>
+          <p>
+            O botão abaixo abre o processo de conexão da Meta. Nós não vemos e não
+            guardamos a sua senha em momento algum.
+          </p>
+        </li>
+        <li class="step">
+          <span class="step-num" aria-hidden="true">02</span>
+          <h2>Confirma o número e o negócio</h2>
+          <p>
+            Você informa o número que será usado, confirma os dados da empresa e valida o
+            código que a Meta envia.
+          </p>
+        </li>
+        <li class="step">
+          <span class="step-num" aria-hidden="true">03</span>
+          <h2>Nós configuramos o assistente</h2>
+          <p>
+            Assim que a conexão fica ativa, recebemos o aviso automaticamente e
+            preparamos o atendimento com as informações do seu negócio. Avisamos você
+            quando estiver pronto.
+          </p>
+        </li>
+      </ol>
+
+      <div class="start-box">
+        <h2>Iniciar a conexão</h2>
+        <p>
+          Ao continuar, você será levado para o ambiente oficial da Meta e do nosso
+          provedor homologado.
+        </p>
+
+        <!--
+          PLACEHOLDER: paste the 360dialog Integrated Onboarding / Embedded Signup URL here.
+          Get it from the 360dialog Partner Hub once Tech Provider onboarding is approved.
+          Until it is filled in, script.js keeps this button disabled so nobody hits a dead link.
+        -->
+        <a class="btn btn-primary btn-lg btn-block"
+           id="onboarding-link"
+           href="[COLE-AQUI-O-LINK-DE-ONBOARDING-DO-360DIALOG]"
+           data-placeholder-link
+           target="_blank" rel="noopener">
+          Conectar meu WhatsApp
+        </a>
+
+        <p class="start-fallback" id="onboarding-fallback" hidden>
+          O link de conexão ainda não está disponível nesta página.
+          <a href="/#contato" data-wa data-wa-message="Olá! Quero conectar o WhatsApp do meu negócio à ConversIA.">Fale com a gente pelo WhatsApp</a>
+          que enviamos o link direto para você.
+        </p>
+      </div>
+
+      <section class="lgpd" aria-labelledby="lgpd-titulo">
+        <h2 id="lgpd-titulo">Consentimento e proteção de dados</h2>
+        <p>
+          Ao conectar o seu número, você autoriza a ConversIA a operar o atendimento
+          automatizado desse WhatsApp em seu nome, na condição de operadora de dados, e
+          declara estar ciente de que:
+        </p>
+        <ul class="lgpd-list">
+          <li>
+            <strong>Opt-in é obrigatório.</strong> Mensagens iniciadas pela empresa só
+            podem ser enviadas a clientes que autorizaram o contato. Você é responsável
+            por coletar esse consentimento, e nós ajudamos a registrá-lo.
+          </li>
+          <li>
+            <strong>Finalidade limitada.</strong> As mensagens trocadas são processadas
+            apenas para prestar o atendimento contratado — interpretar o que o cliente
+            pediu e responder.
+          </li>
+          <li>
+            <strong>Processamento por terceiros.</strong> Para funcionar, o serviço usa
+            provedores de infraestrutura e de inteligência artificial. O conteúdo das
+            mensagens é enviado a esses provedores exclusivamente para gerar a resposta.
+            A lista atualizada de subprocessadores fica disponível mediante solicitação.
+          </li>
+          <li>
+            <strong>Seus direitos.</strong> Você pode solicitar acesso, correção,
+            portabilidade ou exclusão dos dados, e encerrar o serviço a qualquer momento.
+            Nesse caso, apagamos os dados de atendimento sob nossa guarda.
+          </li>
+          <li>
+            <strong>Segurança.</strong> Credenciais de acesso ficam armazenadas apenas em
+            ambiente de servidor, nunca no navegador ou no aplicativo do cliente final.
+          </li>
+        </ul>
+        <p class="lgpd-note">
+          Base legal: execução de contrato e legítimo interesse, nos termos dos artigos 7º
+          e 10 da Lei nº 13.709/2018. Dúvidas sobre tratamento de dados podem ser enviadas
+          pelos canais de contato do rodapé.
+        </p>
+      </section>
+
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-bottom footer-bottom-simple">
+      <p>© <span id="ano-atual">2026</span> ConversIA</p>
+      <p><a href="/">Voltar ao site</a> · <a href="/#contato" data-wa data-wa-message="Olá! Tenho uma dúvida sobre a conexão do meu WhatsApp.">Falar no WhatsApp</a></p>
+    </div>
+  </footer>
+
+  <script src="script.js" defer></script>
+</body>
+</html>

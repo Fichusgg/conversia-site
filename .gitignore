@@ -1,3 +1,8 @@
+# Secrets — never commit. Real values live in Vercel env vars.
+.env
+.env.*
+!.env.example
+
 # macOS
 .DS_Store
 
@@ -8,3 +13,6 @@
 
 # Vercel
 .vercel/
+
+# Node (no dependencies today, but keep the guard)
+node_modules/
