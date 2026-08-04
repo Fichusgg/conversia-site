@@ -112,7 +112,14 @@ module.exports = async (req, res) => {
   const verdict = verifySignature(req, raw, rawIsAuthentic);
   if (!verdict.ok) {
     console.warn('[partner-events] rejected:', verdict.reason);
-    return json(res, 401, { error: 'invalid_signature', reason: verdict.reason });
+    // raw_* are setup diagnostics, not secrets: they only report whether the
+    // request stream was readable, which is what HMAC verification depends on.
+    return json(res, 401, {
+      error: 'invalid_signature',
+      reason: verdict.reason,
+      raw_bytes: raw.length,
+      raw_authentic: rawIsAuthentic
+    });
   }
 
   // Full payload logging — this is how you discover the real field names.
