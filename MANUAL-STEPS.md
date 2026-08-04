@@ -100,16 +100,19 @@ is in review. Do not wait for it before selling.
 
 ---
 
-## 6. 🟡 Supabase project
+## 6. ✅ Supabase project — DONE
 
-1. Create a free project at <https://supabase.com/dashboard>. Pick the region
-   closest to Brazil (`sa-east-1` / São Paulo if offered).
-2. Open **SQL Editor → New query**, paste the whole of `schema.sql`, run it.
-3. Verify under **Table Editor** that `whatsapp_clients` and `leads` exist and
-   both show RLS enabled.
-4. From **Project Settings → API**, copy:
-   - Project URL → `SUPABASE_URL`
-   - `service_role` secret → `SUPABASE_SERVICE_ROLE_KEY`
+Project **`conversia`** already exists, region `sa-east-1` (São Paulo), free tier.
+
+- `SUPABASE_URL` = `https://qzgfumucqldtwevkjhji.supabase.co`
+- `schema.sql` has been applied. `whatsapp_clients` and `leads` both exist with
+  RLS enabled and no policies, so only the service-role key can reach them.
+- Security advisor is clean apart from the two expected
+  "RLS enabled, no policy" notices, which are the intended design.
+
+**The one thing left here:** copy the `service_role` secret from
+**Project Settings → API Keys** into `SUPABASE_SERVICE_ROLE_KEY` (step 8). It is
+deliberately not written down anywhere in this repo.
 
 > The `service_role` key bypasses Row Level Security. It belongs only in Vercel
 > environment variables. Never put it in `script.js`, an HTML file, or anything
@@ -178,8 +181,8 @@ openssl rand -hex 32
 
 | Variable | Where it comes from |
 | --- | --- |
-| `SUPABASE_URL` | Step 6 |
-| `SUPABASE_SERVICE_ROLE_KEY` | Step 6 |
+| `SUPABASE_URL` | `https://qzgfumucqldtwevkjhji.supabase.co` |
+| `SUPABASE_SERVICE_ROLE_KEY` | Supabase → Settings → API Keys → `service_role` |
 | `D360_PARTNER_ID` | Step 3 |
 | `D360_PARTNER_USERNAME` | Step 3 |
 | `D360_PARTNER_PASSWORD` | Step 3 |
@@ -198,13 +201,11 @@ deployment.
 
 ---
 
-## 9. 🟡 Fill in the two site placeholders
+## 9. 🟡 Fill in the site placeholders
 
-Both are single-line edits, then `git push`.
-
-1. **WhatsApp number** — `script.js`, the `WHATSAPP_NUMBER` constant near the top.
-   International format, digits only: `5511987654321`. Until this is set, every
-   "Falar no WhatsApp" button quietly falls back to scrolling to the contact form.
+1. ✅ **WhatsApp number** — done. `WHATSAPP_NUMBER` in `script.js` is set to
+   `19787375032` and is live. Note this is a `+1` (US) number; swap it for the
+   Brazilian one when you have it, since visitors see the country code.
 
 2. **Onboarding link** — `comecar.html`, the `href` on `#onboarding-link`, marked
    `[COLE-AQUI-O-LINK-DE-ONBOARDING-DO-360DIALOG]`. You get this URL from the
@@ -278,9 +279,10 @@ Free tier gives 1,000 operations/month — enough to pilot, not enough for volum
 ## Suggested order
 
 ```
-Day 1   → 1, 2 (submit and wait), 6, 8 (partial), 9 (WhatsApp number)
+DONE    → 6 (Supabase project + schema), 9.1 (WhatsApp number)
+Day 1   → 1, 2 (submit and wait), 8 (Supabase key + bridge secrets)
 Wait    → 3, 4 in review
-Then    → 7, 9 (onboarding link), 10, 8 (remaining values)
+Then    → 7, 9.2 (onboarding link), 10, 8 (remaining values)
 Later   → 5 (App Review to raise the cap), once you have real traffic to show
 ```
 

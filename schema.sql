@@ -15,9 +15,13 @@ create extension if not exists "pgcrypto";
 -- ---------------------------------------------------------------------------
 -- updated_at helper
 -- ---------------------------------------------------------------------------
+-- `search_path = ''` pins resolution so the function cannot be hijacked by a
+-- caller-controlled search_path (Supabase linter 0011).
 create or replace function public.set_updated_at()
 returns trigger
 language plpgsql
+security invoker
+set search_path = ''
 as $$
 begin
   new.updated_at = now();
