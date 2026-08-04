@@ -20,7 +20,7 @@
      There is no build step on this site, so this value lives here in
      source rather than in an environment variable.
      ================================================================== */
-  var WHATSAPP_NUMBER = 'SEU_NUMERO_AQUI';
+  var WHATSAPP_NUMBER = '19787375032';
 
   var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var isConfiguredNumber = /^\d{10,15}$/.test(WHATSAPP_NUMBER);
