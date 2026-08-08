@@ -16,8 +16,8 @@
  * works, which is fine while testing but should not be the live state.
  */
 
-const { readJson, json, safeEqual } = require('../../lib/bridge/http');
-const supabase = require('../../lib/bridge/supabase');
+import { readJson, json, safeEqual } from '../../lib/bridge/http';
+import supabase from '../../lib/bridge/supabase';
 
 /** Pull identifiers and a flat message summary out of a Cloud API webhook payload. */
 function summarize(body) {
@@ -69,7 +69,7 @@ function summarize(body) {
   };
 }
 
-module.exports = async (req, res) => {
+export default async function handler(req, res) {
   // 360dialog sends a GET verification probe on some setups.
   if (req.method === 'GET') {
     return json(res, 200, { ok: true });
@@ -80,14 +80,20 @@ module.exports = async (req, res) => {
     return json(res, 405, { error: 'method_not_allowed' });
   }
 
+  // Fail closed, the same way /api/send does. Skipping the check when the
+  // secret is unset would leave this endpoint open to anyone, forwarding
+  // arbitrary payloads into the Make scenario.
   const expectedSecret = process.env.BRIDGE_INBOUND_SECRET;
-  if (expectedSecret) {
-    const url = new URL(req.url, 'http://localhost');
-    const provided = url.searchParams.get('secret') || req.headers['x-bridge-secret'] || '';
-    if (!safeEqual(provided, expectedSecret)) {
-      console.warn('[inbound] rejected: bad or missing secret');
-      return json(res, 401, { error: 'unauthorized' });
-    }
+  if (!expectedSecret) {
+    console.error('[inbound] BRIDGE_INBOUND_SECRET is not set — refusing to run open');
+    return json(res, 500, { error: 'server_not_configured' });
+  }
+
+  const url = new URL(req.url, 'http://localhost');
+  const provided = url.searchParams.get('secret') || req.headers['x-bridge-secret'] || '';
+  if (!safeEqual(provided, expectedSecret)) {
+    console.warn('[inbound] rejected: bad or missing secret');
+    return json(res, 401, { error: 'unauthorized' });
   }
 
   const { body } = await readJson(req);
@@ -159,11 +165,11 @@ module.exports = async (req, res) => {
   }
 
   return json(res, 200, { received: true, forwarded: true });
-};
+}
 
 /**
  * Next.js parses request bodies by default, which drains the stream before
  * readJson() can see the raw bytes. The 360dialog HMAC is computed over those
  * exact bytes, so the parser has to stay off for every bridge route.
  */
-module.exports.config = { api: { bodyParser: false } };
+export const config = { api: { bodyParser: false } };

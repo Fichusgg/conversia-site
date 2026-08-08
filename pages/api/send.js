@@ -18,9 +18,9 @@
  *   { "client_id": "...", "message": { "messaging_product": "whatsapp", ... } }
  */
 
-const { readJson, json, checkSharedSecret } = require('../../lib/bridge/http');
-const supabase = require('../../lib/bridge/supabase');
-const d360 = require('../../lib/bridge/d360');
+import { readJson, json, checkSharedSecret } from '../../lib/bridge/http';
+import supabase from '../../lib/bridge/supabase';
+import d360 from '../../lib/bridge/d360';
 
 function buildMessage(body) {
   if (body.message && typeof body.message === 'object') {
@@ -38,7 +38,7 @@ function buildMessage(body) {
   };
 }
 
-module.exports = async (req, res) => {
+export default async function handler(req, res) {
   if (req.method !== 'POST') {
     res.setHeader('Allow', 'POST');
     return json(res, 405, { error: 'method_not_allowed' });
@@ -97,11 +97,11 @@ module.exports = async (req, res) => {
     console.error('[send] request to 360dialog failed:', error.message);
     return json(res, 502, { error: 'send_failed' });
   }
-};
+}
 
 /**
  * Next.js parses request bodies by default, which drains the stream before
  * readJson() can see the raw bytes. The 360dialog HMAC is computed over those
  * exact bytes, so the parser has to stay off for every bridge route.
  */
-module.exports.config = { api: { bodyParser: false } };
+export const config = { api: { bodyParser: false } };

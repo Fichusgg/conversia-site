@@ -16,10 +16,10 @@
  * actually sends — 360dialog's partner payload shape varies by event type.
  */
 
-const crypto = require('crypto');
-const { readJson, json, requireEnv } = require('../../lib/bridge/http');
-const supabase = require('../../lib/bridge/supabase');
-const d360 = require('../../lib/bridge/d360');
+import crypto from 'crypto';
+import { readJson, json, requireEnv } from '../../lib/bridge/http';
+import supabase from '../../lib/bridge/supabase';
+import d360 from '../../lib/bridge/d360';
 
 /**
  * Verify the HMAC-SHA256 signature 360dialog sends with partner webhooks.
@@ -101,7 +101,7 @@ function isChannelLive(event) {
   return normalized.includes('channellive') || normalized === 'live' || normalized.includes('running');
 }
 
-module.exports = async (req, res) => {
+export default async function handler(req, res) {
   if (req.method !== 'POST') {
     res.setHeader('Allow', 'POST');
     return json(res, 405, { error: 'method_not_allowed' });
@@ -171,11 +171,11 @@ module.exports = async (req, res) => {
     console.error('[partner-events] provisioning failed:', error.message, error.details || '');
     return json(res, 200, { received: true, handled: false, error: 'provisioning_failed' });
   }
-};
+}
 
 /**
  * Next.js parses request bodies by default, which drains the stream before
  * readJson() can see the raw bytes. The 360dialog HMAC is computed over those
  * exact bytes, so the parser has to stay off for every bridge route.
  */
-module.exports.config = { api: { bodyParser: false } };
+export const config = { api: { bodyParser: false } };

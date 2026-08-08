@@ -184,7 +184,8 @@ account on the first live event.
 
 ### `POST /api/inbound`
 Called by 360dialog per number. Protected by `?secret=` matching
-`BRIDGE_INBOUND_SECRET`. Ignores delivery-status callbacks, forwards real
+`BRIDGE_INBOUND_SECRET`; refuses to run at all if that variable is unset, so it
+is never an open endpoint. Ignores delivery-status callbacks, forwards real
 messages to Make, and always answers 200 so 360dialog never retries.
 
 ### `POST /api/send`
