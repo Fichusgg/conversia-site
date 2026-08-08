@@ -9,63 +9,67 @@ Site copy is Brazilian Portuguese; code and comments are English.
 
 | Piece | What |
 | --- | --- |
-| Site | Static HTML + CSS + vanilla JS. No framework, no build step, no dependencies. |
-| Functions | Vercel Serverless Functions in `/api` (Node.js, CommonJS, zero npm packages). |
-| Data | Supabase (PostgREST over HTTPS, called with `fetch`). |
+| Site + dashboard | Next.js 15 (App Router, JavaScript, no TypeScript). |
+| Auth | Supabase Auth, email + password. No public sign-up. |
+| Bridge functions | `pages/api/*` — Node handlers with the raw body parser disabled. |
+| Data | Supabase (`@supabase/supabase-js` server-side, `@supabase/ssr` for auth). |
 | WhatsApp | WhatsApp Business Platform via 360dialog (official BSP). |
 | Orchestration | Make.com. |
 | Hosting | Vercel — site and functions in the same project. |
 
-Everything here runs on **Vercel Hobby + Supabase free tier**. There are no npm
-dependencies at all, so there is nothing to install and no build to break.
+Everything here runs on **Vercel Hobby + Supabase free tier**.
+
+The site is public. Everything under `/dashboard` is private: `middleware.js`
+redirects anyone without a Supabase session to `/login` before a page renders.
 
 ## Layout
 
 ```
-index.html              Marketing site (single page)
-comecar.html            /comecar — onboarding entry point
-onboarding/sucesso.html /onboarding/sucesso — post Embedded Signup landing
-styles.css              Design tokens, light + dark themes
-script.js               Nav, smooth scroll, WhatsApp links, form
-vercel.json             Clean URLs, security headers, cache policy
-schema.sql              Supabase tables — run once in the SQL Editor
-.env.example            Every environment variable, documented
-MANUAL-STEPS.md         The account setup only a human can do
-api/
-  _lib/http.js          Raw body reading, JSON replies, constant-time compare
-  _lib/supabase.js      Supabase REST helpers
-  _lib/d360.js          360dialog Partner API + WABA calls
-  partner-events.js     POST /api/partner-events — 360dialog partner webhook
-  inbound.js            POST /api/inbound     — inbound messages → Make
-  send.js               POST /api/send        — Make → WhatsApp reply
-  media.js              POST /api/media       — download a photo/voice note for Make
-  leads.js              POST /api/leads       — site form → Supabase
+app/
+  layout.jsx                  Root layout, fonts, metadata
+  globals.css                 Design tokens, light + dark themes, dashboard styles
+  page.jsx                    Marketing home
+  comecar/page.jsx            /comecar — onboarding entry point
+  onboarding/sucesso/page.jsx Post Embedded Signup landing
+  login/                      Admin sign-in
+  dashboard/
+    layout.jsx                Shell: header, nav, sign out
+    actions.js                Every dashboard write ('use server')
+    page.jsx                  Visão geral
+    clientes/                 List, create, and per-client editor
+    onboarding/               Checklists with progress and notes
+    modelos/                  Prompt template library
+    leads/                    Leads inbox
+components/site/              Header, footer, WhatsApp CTAs, contact form
+lib/
+  site.js                     Shared constants and formatting
+  supabase/admin.js           Service-role client (server-only)
+  supabase/server.js          Session-scoped client + requireAdmin()
+  supabase/browser.js         Sign-in/out only
+  bridge/                     Shared code for the WhatsApp bridge
+pages/api/                    The five bridge endpoints
+middleware.js                 Gates /dashboard, refreshes the session
+supabase/schema.sql           All tables, RLS, grants and seed data
 ```
 
-Files under `/api` starting with `_` are shared modules, not routes — Vercel does
-not expose them as endpoints.
+Bridge endpoints live in `pages/api` rather than `app/api` on purpose: they need
+the Node `(req, res)` signature and the raw request bytes for the 360dialog HMAC,
+which the Pages runtime gives directly once `bodyParser` is off.
 
 ## Running locally
 
-The site is plain static files, so any server works:
-
 ```bash
-python3 -m http.server 4321
+npm install && npm run dev
 ```
 
-That serves the pages but **not** `/api` — the form will fail. To run the
-functions too, use the Vercel CLI (free, no card required):
-
-```bash
-npx vercel dev
-```
-
-Pull the environment variables down first, or create `.env.local` from
-`.env.example`:
+Create `.env.local` from `.env.example` first, or pull the real values down:
 
 ```bash
 npx vercel env pull .env.local
 ```
+
+At minimum you need `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`,
+`SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY` for the dashboard to load.
 
 ## Deploying
 
@@ -75,8 +79,7 @@ The project is already connected to Vercel. Every push to `main` deploys:
 git push
 ```
 
-No build command, no output directory, no framework preset. Vercel serves the
-static files from the repo root and turns each file in `/api` into a function.
+Vercel detects Next.js and runs `next build` — no manual settings needed.
 
 ## Environment variables
 
@@ -98,24 +101,45 @@ Production, Preview and Development scopes. Full descriptions live in
 | `BRIDGE_SEND_SECRET` | send | **Secret.** Sent by Make as `x-bridge-secret` |
 | `MAKE_WEBHOOK_URL` | inbound | Make custom-webhook URL |
 | `PUBLIC_BASE_URL` | partner-events | This project's origin, no trailing slash |
+| `NEXT_PUBLIC_SUPABASE_URL` | auth | Same as `SUPABASE_URL`; safe in the browser |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | auth | Publishable key. Public by design |
+| `NEXT_PUBLIC_WHATSAPP_NUMBER` | site | Digits only, e.g. `5511987654321` |
+| `NEXT_PUBLIC_CONTACT_EMAIL` | site | Footer address |
+| `NEXT_PUBLIC_ONBOARDING_URL` | /comecar | 360dialog Embedded Signup link |
 
-The site's own WhatsApp number is **not** an environment variable — the static
-front-end has no build step to read one. It lives in `WHATSAPP_NUMBER` at the top
-of `script.js`.
+`NEXT_PUBLIC_*` values are inlined into the browser bundle at build time, so
+only public values belong there. Changing one requires a redeploy.
 
 ## Database
 
-Run `schema.sql` once in the Supabase SQL Editor. It creates:
+Run `supabase/schema.sql` in the Supabase SQL Editor. It is idempotent, so it is
+safe to re-run after a change. It creates six tables:
 
-- **`whatsapp_clients`** — one row per connected business, keyed by `client_id`,
-  looked up by `phone_number_id` on every inbound message. Holds that channel's
-  360dialog API key.
-- **`leads`** — demo requests from the site form, with the LGPD opt-in recorded
-  on the row.
+| Table | Holds |
+| --- | --- |
+| `whatsapp_clients` | One row per connected channel. Written by the bridge. |
+| `client_config` | How each business's assistant behaves. Edited in the dashboard. |
+| `conversations` | Message log, written by the bridge / Make. |
+| `leads` | Demo requests from the site form. |
+| `onboarding_checklist` | Ten steps per client, seeded automatically on insert. |
+| `prompt_templates` | Starter prompts for eight Brazilian business types. |
 
-Both tables have Row Level Security **enabled with no policies**, so the anon and
-publishable keys can do nothing at all. Only the service-role key — used solely
-inside serverless functions — can read or write them.
+### How the data is protected
+
+Row Level Security is on everywhere, with one policy per table allowing the
+`authenticated` role full access. Since there is no public sign-up, that role is
+just the agency admin.
+
+RLS is row-level and cannot hide a *column*, so the two secrets are protected
+separately with **column grants**:
+
+- `whatsapp_clients.api_key`
+- `client_config.cal_api_key`
+
+Both are revoked from `anon` and `authenticated` entirely. Even a signed-in
+browser session cannot read them — only the service-role key can, and that lives
+solely in server code. The dashboard shows a masked hint (`••••abcd`) so you can
+tell whether a key is set without ever transmitting it.
 
 ## How the bridge fits together
 
@@ -184,15 +208,16 @@ without the channel API key ever being configured inside Make.
 
 ## Before this handles real traffic
 
-- [ ] Set `WHATSAPP_NUMBER` in `script.js`. Until then every WhatsApp button
+- [ ] Set `NEXT_PUBLIC_WHATSAPP_NUMBER`. Until then every WhatsApp button
       falls back to scrolling to the contact form (no broken links, but no
       WhatsApp either).
+- [ ] Create the admin user in Supabase Auth — see `MANUAL-STEPS.md` step 0.
 - [ ] Paste the 360dialog onboarding URL into `comecar.html`. Until then the
       button is disabled and a fallback message points at WhatsApp.
-- [ ] Confirm the contact e-mail in the footer of `index.html`.
-- [ ] Run `schema.sql` in Supabase and set the environment variables.
+- [ ] Confirm the contact e-mail in the footer (`NEXT_PUBLIC_CONTACT_EMAIL`).
+- [ ] Run `supabase/schema.sql` in Supabase and set the environment variables.
 - [ ] Work through `MANUAL-STEPS.md`.
-- [ ] Verify the three 360dialog calls in `api/_lib/d360.js` against the current
+- [ ] Verify the three 360dialog calls in `lib/bridge/d360.js` against the current
       Partner API docs — they are isolated in that one file for exactly this reason.
 
 ## Notes

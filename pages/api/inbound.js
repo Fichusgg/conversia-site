@@ -16,8 +16,8 @@
  * works, which is fine while testing but should not be the live state.
  */
 
-const { readJson, json, safeEqual } = require('./_lib/http');
-const supabase = require('./_lib/supabase');
+const { readJson, json, safeEqual } = require('../../lib/bridge/http');
+const supabase = require('../../lib/bridge/supabase');
 
 /** Pull identifiers and a flat message summary out of a Cloud API webhook payload. */
 function summarize(body) {
@@ -160,3 +160,10 @@ module.exports = async (req, res) => {
 
   return json(res, 200, { received: true, forwarded: true });
 };
+
+/**
+ * Next.js parses request bodies by default, which drains the stream before
+ * readJson() can see the raw bytes. The 360dialog HMAC is computed over those
+ * exact bytes, so the parser has to stay off for every bridge route.
+ */
+module.exports.config = { api: { bodyParser: false } };

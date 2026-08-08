@@ -10,8 +10,8 @@
  * honeypot hits, and caps field lengths before touching the database.
  */
 
-const { readJson, json, clientIp } = require('./_lib/http');
-const supabase = require('./_lib/supabase');
+const { readJson, json, clientIp } = require('../../lib/bridge/http');
+const supabase = require('../../lib/bridge/supabase');
 
 const LIMITS = { nome: 120, whatsapp: 32, email: 160, segmento: 60, mensagem: 2000 };
 
@@ -94,3 +94,10 @@ module.exports = async (req, res) => {
 
   return json(res, 201, { ok: true });
 };
+
+/**
+ * Next.js parses request bodies by default, which drains the stream before
+ * readJson() can see the raw bytes. The 360dialog HMAC is computed over those
+ * exact bytes, so the parser has to stay off for every bridge route.
+ */
+module.exports.config = { api: { bodyParser: false } };

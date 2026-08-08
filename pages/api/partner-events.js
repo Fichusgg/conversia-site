@@ -17,9 +17,9 @@
  */
 
 const crypto = require('crypto');
-const { readJson, json, requireEnv } = require('./_lib/http');
-const supabase = require('./_lib/supabase');
-const d360 = require('./_lib/d360');
+const { readJson, json, requireEnv } = require('../../lib/bridge/http');
+const supabase = require('../../lib/bridge/supabase');
+const d360 = require('../../lib/bridge/d360');
 
 /**
  * Verify the HMAC-SHA256 signature 360dialog sends with partner webhooks.
@@ -172,3 +172,10 @@ module.exports = async (req, res) => {
     return json(res, 200, { received: true, handled: false, error: 'provisioning_failed' });
   }
 };
+
+/**
+ * Next.js parses request bodies by default, which drains the stream before
+ * readJson() can see the raw bytes. The 360dialog HMAC is computed over those
+ * exact bytes, so the parser has to stay off for every bridge route.
+ */
+module.exports.config = { api: { bodyParser: false } };

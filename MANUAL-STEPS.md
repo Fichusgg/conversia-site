@@ -15,6 +15,23 @@ Do the parallel work while the reviews sit in a queue.
 
 ---
 
+## 0. 🔴 Criar o usuário admin do painel — FAÇA PRIMEIRO
+
+The dashboard has **no public sign-up**, by design. The single admin account is
+created by hand:
+
+1. Supabase → **Authentication → Users → Add user → Create new user**.
+2. Use your own email and a strong password.
+3. Tick **Auto Confirm User** — otherwise the account cannot sign in until the
+   confirmation email is clicked, and no mail sender is configured.
+
+That is the only account that will ever exist. To lock it down further, go to
+**Authentication → Providers → Email** and turn **Enable sign-ups** off.
+
+Then sign in at `/login`. There is no link to it from the public site.
+
+---
+
 ## 1. 🔴 Meta Business Portfolio
 
 Create the business account everything else hangs off.
@@ -105,18 +122,19 @@ is in review. Do not wait for it before selling.
 Project **`conversia`** already exists, region `sa-east-1` (São Paulo), free tier.
 
 - `SUPABASE_URL` = `https://qzgfumucqldtwevkjhji.supabase.co`
-- `schema.sql` has been applied. `whatsapp_clients` and `leads` both exist with
-  RLS enabled and no policies, so only the service-role key can reach them.
-- Security advisor is clean apart from the two expected
-  "RLS enabled, no policy" notices, which are the intended design.
+- Security advisor is clean.
+
+`supabase/schema.sql` now holds the full schema — six tables, RLS, column grants
+and the eight seeded prompt templates. It has already been applied. Re-run it in
+the SQL Editor after any change; it is idempotent.
 
 **The one thing left here:** copy the `service_role` secret from
 **Project Settings → API Keys** into `SUPABASE_SERVICE_ROLE_KEY` (step 8). It is
 deliberately not written down anywhere in this repo.
 
 > The `service_role` key bypasses Row Level Security. It belongs only in Vercel
-> environment variables. Never put it in `script.js`, an HTML file, or anything
-> the browser downloads.
+> environment variables. Never prefix it with `NEXT_PUBLIC_`, and never import
+> `lib/supabase/admin.js` from a Client Component.
 
 **Parallel:** do this immediately, it does not depend on Meta.
 **Cost:** free tier. No card required.
@@ -158,7 +176,7 @@ Do this once step 3 is approved and the site is deployed.
    Then **set `D360_ALLOW_UNSIGNED=false`** and confirm a signed event still
    verifies. Do not leave it on `true`.
 
-5. While you are there, check the three calls in `api/_lib/d360.js` against the
+5. While you are there, check the three calls in `lib/bridge/d360.js` against the
    current docs at <https://docs.360dialog.com/partner/>: token, API key
    generation, and webhook registration. They are isolated in that one file so
    this is a five-minute check.
@@ -183,6 +201,8 @@ openssl rand -hex 32
 | --- | --- |
 | `SUPABASE_URL` | `https://qzgfumucqldtwevkjhji.supabase.co` |
 | `SUPABASE_SERVICE_ROLE_KEY` | Supabase → Settings → API Keys → `service_role` |
+| `NEXT_PUBLIC_SUPABASE_URL` | Same URL as above |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | `sb_publishable_p0cxIvgUE1mf47rL4MxTgA_EVqWnMLU` |
 | `D360_PARTNER_ID` | Step 3 |
 | `D360_PARTNER_USERNAME` | Step 3 |
 | `D360_PARTNER_PASSWORD` | Step 3 |
@@ -203,7 +223,8 @@ deployment.
 
 ## 9. 🟡 Fill in the site placeholders
 
-1. ✅ **WhatsApp number** — done. `WHATSAPP_NUMBER` in `script.js` is set to
+1. ✅ **WhatsApp number** — done. `NEXT_PUBLIC_WHATSAPP_NUMBER` (fallback in
+   `lib/site.js`) is set to
    `19787375032` and is live. Note this is a `+1` (US) number; swap it for the
    Brazilian one when you have it, since visitors see the country code.
 
@@ -212,7 +233,7 @@ deployment.
    Partner Hub after step 4 is approved. Until it is a real `https://` URL the
    button stays disabled and a fallback message points visitors to WhatsApp.
 
-Also worth confirming: the contact e-mail in the footer of `index.html` currently
+Also worth confirming: the contact e-mail in the footer (`NEXT_PUBLIC_CONTACT_EMAIL`) currently
 reads `contato@conversia.com.br`.
 
 **Parallel:** the WhatsApp number can be set right now. The onboarding link waits
@@ -280,7 +301,8 @@ Free tier gives 1,000 operations/month — enough to pilot, not enough for volum
 
 ```
 DONE    → 6 (Supabase project + schema), 9.1 (WhatsApp number)
-Day 1   → 1, 2 (submit and wait), 8 (Supabase key + bridge secrets)
+Agora   → 0 (usuário admin), 8 (chave do Supabase + segredos do bridge)
+Day 1   → 1, 2 (submit and wait)
 Wait    → 3, 4 in review
 Then    → 7, 9.2 (onboarding link), 10, 8 (remaining values)
 Later   → 5 (App Review to raise the cap), once you have real traffic to show
