@@ -1,8 +1,5 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-
-  "//": "The project was first imported as a static site, so its saved Framework Preset is 'Other' and Vercel will not run `next build`. Settings declared here take precedence over the dashboard, which pins the framework back to Next.js from source control.",
-
   "framework": "nextjs",
   "buildCommand": "next build",
   "installCommand": "npm install"
