@@ -1,6 +1,8 @@
 import { createServerClient } from '@supabase/ssr';
 import { NextResponse } from 'next/server';
 
+import { SUPABASE_ANON_KEY, SUPABASE_URL } from '@/lib/supabase/config';
+
 /**
  * Gate every /dashboard route on a real Supabase session, and keep that session
  * refreshed so a working tab does not silently expire.
@@ -12,8 +14,8 @@ export async function middleware(request) {
   let response = NextResponse.next({ request });
 
   const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+    SUPABASE_URL,
+    SUPABASE_ANON_KEY,
     {
       cookies: {
         getAll() {
